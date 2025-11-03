@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -256,6 +257,21 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5590107fa645ad8f12df513268b929, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrackTarget
+  car: {fileID: 1385454477}
+  cameraFollowSpeed: 0.5
+  cameraRotateSpeed: 0.05
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +448,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1385454477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3833584560248326747, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
+  m_PrefabInstance: {fileID: 8118377245554234048}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2068723270
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,6 +609,14 @@ PrefabInstance:
     - target: {fileID: 3833584560248326747, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
       propertyPath: m_Name
       value: RacingCar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6849308444739185877, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7306389860475804391, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
+      propertyPath: m_Convex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
