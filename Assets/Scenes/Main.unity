@@ -266,12 +266,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b5590107fa645ad8f12df513268b929, type: 3}
+  m_Script: {fileID: 11500000, guid: ec7342aa5d4d84660a8ce55f3b3b525f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TrackTarget
-  car: {fileID: 1385454477}
-  cameraFollowSpeed: 0.5
-  cameraRotateSpeed: 0.05
+  m_EditorClassIdentifier: Assembly-CSharp::ChaseCamera
+  target: {fileID: 1385454481}
+  followOffset: {x: 0, y: 3, z: -8}
+  positionDamping: 0.15
+  rotationDamping: 10
+  minFOV: 45
+  maxFOV: 65
+  maxFovAtSpeed: 45
+  fovLerpSpeed: 8
+  extraDistancePerSpeed: 0
+  maxExtraDistance: 5
+  lookAheadPerSpeed: 0.1
+  maxLookAhead: 6
+  lateralLookAmount: 0.4
+  rollAngle: 6
+  rollLerpSpeed: 3.5
+  maxCornerYaw: 8
+  cornerYawLerp: 3.5
+  alignToVelocity: 1
+  velocityAlignWeight: 0.6
+  collisionAvoidance: 1
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  collisionRadius: 0.2
+  collisionBuffer: 0.2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,9 +470,9 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1385454477 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3833584560248326747, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
+--- !u!4 &1385454481 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 623292190794246903, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
   m_PrefabInstance: {fileID: 8118377245554234048}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2068723270

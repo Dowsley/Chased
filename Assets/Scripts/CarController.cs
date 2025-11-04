@@ -46,6 +46,7 @@ public class CarController : MonoBehaviour
         Move();
         Steer();
         Brake();
+        AnimateWheels();
     }
 
     private void GetInputs()
@@ -79,7 +80,17 @@ public class CarController : MonoBehaviour
     {
         foreach (var wheel in wheels)
         {
-            wheel.wheelCollider.brakeTorque = _braking ? _moveInput * brakeAccel : 0.0f;
+            wheel.wheelCollider.brakeTorque = _braking ? brakeAccel : 0f;
+        }
+    }
+
+    private void AnimateWheels()
+    {
+        foreach (var wheel in wheels)
+        {
+            wheel.wheelCollider.GetWorldPose(out var pos, out var rot);
+            wheel.wheelModel.transform.position = pos;
+            wheel.wheelModel.transform.rotation = rot;
         }
     }
 }
