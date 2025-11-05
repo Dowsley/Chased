@@ -34,6 +34,10 @@ public class CarController : MonoBehaviour
     private Rigidbody _carRb;
     private bool _braking = false;
 
+    // Collision cooldown to prevent multiple strikes from one touch
+    private float _lastCollisionTime = -999f;
+    private const float CollisionCooldown = 1.0f;
+
     private void Start()
     {
         _carRb = GetComponent<Rigidbody>();
@@ -80,6 +84,29 @@ public class CarController : MonoBehaviour
         foreach (var wheel in wheels)
         {
             wheel.wheelCollider.brakeTorque = _braking ? _moveInput * brakeAccel : 0.0f;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Check if we collided with the cop car
+        if (collision.gameObject.GetComponent<CopCarAI>() != null)
+        {
+            // Use cooldown to prevent multiple collision events from one touch
+            float currentTime = Time.time;
+            if (currentTime - _lastCollisionTime < CollisionCooldown)
+            {
+                return; // Still in cooldown, ignore this collision
+            }
+
+            _lastCollisionTime = currentTime;
+            Debug.Log("Hit by cop car!");
+
+            // Notify the game manager
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.LoseStrike();
+            }
         }
     }
 }
