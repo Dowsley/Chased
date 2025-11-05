@@ -1,25 +1,28 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using TMPro;
 
-public class GameManager : MonoBehaviour
+namespace Core
 {
-    public static GameManager Instance { get; private set; }
-    
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        if (Instance == null)
+        public static GameManager Instance { get; private set; }
+        
+        public Transform targetCar;
+        
+        private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
   
-    public void HitByCopCar()
-    {
-        Debug.Log("Hit by cop car!");
+        public void HitByCopCar()
+        {
+            Debug.Log("Hit by cop car!");
+        }
     }
 }

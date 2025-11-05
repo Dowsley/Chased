@@ -1,12 +1,10 @@
+using Core;
 using UnityEngine;
 
 namespace Driving.AI
 {
     public class AIDriverInput : BaseDriverInput
     {
-        [Header("Target")]
-        [SerializeField] private Transform targetCar;
-
         [Header("AI Settings")]
         [SerializeField] private float pursuitSpeed = 1.5f;
         [SerializeField] private float minSpeedMultiplier = 0.5f; // Minimum speed even when very close
@@ -20,16 +18,11 @@ namespace Driving.AI
         protected override void Start()
         {
             base.Start();
-
-            if (targetCar == null)
-            {
-                Debug.LogError("AIDriverInput: No target car assigned!");
-            }
         }
 
         protected override void FixedUpdate()
         {
-            if (!targetCar)
+            if (!GameManager.Instance.targetCar)
                 return;
 
             CalculateAI();
@@ -38,10 +31,10 @@ namespace Driving.AI
 
         private void CalculateAI()
         {
-            Vector3 directionToTarget = targetCar.position - transform.position;
+            Vector3 directionToTarget = GameManager.Instance.targetCar.position - transform.position;
             float distanceToTarget = directionToTarget.magnitude;
 
-            Vector3 localTarget = transform.InverseTransformPoint(targetCar.position);
+            Vector3 localTarget = transform.InverseTransformPoint(GameManager.Instance.targetCar.position);
             float angleToTarget = Mathf.Atan2(localTarget.x, localTarget.z) * Mathf.Rad2Deg;
 
             _currentSteerInput = Mathf.Clamp(angleToTarget / maxSteerAngle, -1f, 1f);
@@ -76,10 +69,10 @@ namespace Driving.AI
 
         private void OnDrawGizmos()
         {
-            if (targetCar != null && Application.isPlaying)
+            if (GameManager.Instance.targetCar != null && Application.isPlaying)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawLine(transform.position, targetCar.position);
+                Gizmos.DrawLine(transform.position, GameManager.Instance.targetCar.position);
 
                 Gizmos.color = Color.yellow;
                 Gizmos.DrawWireSphere(transform.position, slowDownDistance);
