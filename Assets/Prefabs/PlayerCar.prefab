@@ -410,10 +410,11 @@ GameObject:
   m_Component:
   - component: {fileID: 623292190794246903}
   - component: {fileID: 6849308444739185877}
-  - component: {fileID: 1575185696385150645}
   - component: {fileID: 1482215805004911621}
+  - component: {fileID: 6395039278062829346}
+  - component: {fileID: 2782269910874708973}
   m_Layer: 0
-  m_Name: RacingCar
+  m_Name: PlayerCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -428,7 +429,7 @@ Transform:
   m_GameObject: {fileID: 3833584560248326747}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 503.2568, y: -0.000018119812, z: 463.11633}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -460,41 +461,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1575185696385150645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3833584560248326747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54383bb0d252f40aaa5d46d5d19c6eb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CarController
-  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  brakeAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  maxAccel: 300
-  brakeAccel: 50
-  turnSensitivity: 1
-  maxSteerAngle: 30
-  centerOfMass: {x: 0, y: 0, z: 0}
-  wheels:
-  - wheelModel: {fileID: 7037875715842607263}
-    wheelCollider: {fileID: 4481062748792555142}
-    axel: 0
-  - wheelModel: {fileID: 117215296812182067}
-    wheelCollider: {fileID: 9070099777968820566}
-    axel: 0
-  - wheelModel: {fileID: 6629116447087759789}
-    wheelCollider: {fileID: 2823036193657760210}
-    axel: 1
-  - wheelModel: {fileID: 8312283061949830053}
-    wheelCollider: {fileID: 3934143738183779764}
-    axel: 1
 --- !u!114 &1482215805004911621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +494,50 @@ MonoBehaviour:
   m_DefaultActionMap: 
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &6395039278062829346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833584560248326747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54419c75b4ad041f49e2ce93f81d9927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VehicleController
+  maxAccel: 300
+  brakeAccel: 500
+  turnSensitivity: 1
+  maxSteerAngle: 30
+  centerOfMass: {x: 0, y: 0, z: 0}
+  wheels:
+  - wheelModel: {fileID: 7037875715842607263}
+    wheelCollider: {fileID: 4481062748792555142}
+    axel: 0
+  - wheelModel: {fileID: 117215296812182067}
+    wheelCollider: {fileID: 9070099777968820566}
+    axel: 0
+  - wheelModel: {fileID: 6629116447087759789}
+    wheelCollider: {fileID: 2823036193657760210}
+    axel: 1
+  - wheelModel: {fileID: 8312283061949830053}
+    wheelCollider: {fileID: 3934143738183779764}
+    axel: 1
+--- !u!114 &2782269910874708973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833584560248326747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c533b81d7e1143669a801df37c12c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Driving.Player.PlayerDriverInput
+  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  brakeAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &6629116447087759789
 GameObject:
   m_ObjectHideFlags: 0

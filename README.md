@@ -11,5 +11,7 @@ Car mayhem just like GTA.
 
 ## TODO
 - [X] Basic vehicle
+- [X] Police cars and AI
 - [ ] Lighting and atmosphere
-- [ ] Police cars and AI
+- [ ] Car Destruction
+- [ ] Levels
