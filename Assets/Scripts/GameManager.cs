@@ -19,15 +19,13 @@ public class GameManager : MonoBehaviour
     private int _currentStrikes;
     private bool _isGameOver;
     private bool _isRestarting;
-    private bool _initialized;
 
     private void Awake()
     {
-        // Singleton pattern with DontDestroyOnLoad
+        // Simple singleton pattern (no DontDestroyOnLoad since we reload the scene)
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -38,21 +36,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Only initialize strikes on first load, not on scene restart
-        if (!_initialized)
-        {
-            _currentStrikes = maxStrikes;
-            _initialized = true;
-        }
-
+        // Initialize strikes to max on each scene load
+        _currentStrikes = maxStrikes;
         _isGameOver = false;
         _isRestarting = false;
-        UpdateUI();
 
+        // Hide game over panel at start
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(false);
         }
+
+        // Update UI after initializing everything
+        UpdateUI();
     }
 
     public void LoseStrike()
@@ -110,10 +106,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        _currentStrikes = maxStrikes;
-        _isGameOver = false;
-        _isRestarting = false;
-        _initialized = false; // Reset so strikes are set to max on next Start()
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
