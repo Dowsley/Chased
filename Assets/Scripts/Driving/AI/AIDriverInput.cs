@@ -5,7 +5,8 @@ namespace Driving.AI
 {
     public class AIDriverInput : BaseDriverInput
     {
-        [Header("AI Settings")]
+        [Header("AI Settings")] [SerializeField]
+        private bool disabled = false;
         [SerializeField] private float pursuitSpeed = 1.5f;
         [SerializeField] private float minSpeedMultiplier = 0.5f; // Minimum speed even when very close
         [SerializeField] private float slowDownDistance = 5f; // Only slow down when very close
@@ -15,14 +16,9 @@ namespace Driving.AI
         private float _currentThrottle;
         private float _currentSteerInput;
 
-        protected override void Start()
-        {
-            base.Start();
-        }
-
         protected override void FixedUpdate()
         {
-            if (!GameManager.Instance.targetCar)
+            if (!GameManager.Instance.targetCar || disabled)
                 return;
 
             CalculateAI();
@@ -69,7 +65,7 @@ namespace Driving.AI
 
         private void OnDrawGizmos()
         {
-            if (GameManager.Instance.targetCar != null && Application.isPlaying)
+            if (Application.isPlaying && GameManager.Instance.targetCar != null)
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawLine(transform.position, GameManager.Instance.targetCar.position);

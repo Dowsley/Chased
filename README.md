@@ -12,6 +12,8 @@ Car mayhem just like GTA.
 ## TODO
 - [X] Basic vehicle
 - [X] Police cars and AI
-- [ ] Lighting and atmosphere
-- [ ] Car Destruction
-- [ ] Levels
+- [X] Lighting and atmosphere
+- [ ] Add sounds
+- [ ] Tire tracks
+- [ ] Car Destruction (joao)
+- [ ] Desert level (neunzo)

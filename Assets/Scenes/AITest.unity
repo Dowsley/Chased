@@ -20,13 +20,13 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0.0037205184, b: 0.084905684, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 8b80ad473d0be4dafafdeb1f064ff9c7, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -175,6 +175,22 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -236,10 +252,29 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2089942313062815276, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1150240598}
   m_SourcePrefab: {fileID: 100100000, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
 --- !u!1001 &252108565
 PrefabInstance:
@@ -297,138 +332,27 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
---- !u!1 &267000743
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 267000745}
-  - component: {fileID: 267000744}
-  - component: {fileID: 267000746}
-  m_Layer: 0
-  m_Name: Directional Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &267000744
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267000743}
-  m_Enabled: 1
-  serializedVersion: 11
-  m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ForceVisible: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
-  m_LightUnit: 1
-  m_LuxAtDistance: 1
-  m_EnableSpotReflector: 1
---- !u!4 &267000745
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267000743}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &267000746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267000743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
-  m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
-  m_CustomShadowLayers: 0
-  m_LightCookieSize: {x: 1, y: 1}
-  m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 0
-  m_RenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_ShadowRenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_Version: 4
-  m_LightLayerMask: 1
-  m_ShadowLayerMask: 1
-  m_RenderingLayers: 1
-  m_ShadowRenderingLayers: 1
 --- !u!1 &276574733
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +454,22 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -591,10 +531,29 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2089942313062815276, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1109180958}
   m_SourcePrefab: {fileID: 100100000, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
 --- !u!1001 &557514413
 PrefabInstance:
@@ -648,6 +607,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCar
       objectReference: {fileID: 0}
+    - target: {fileID: 8136421987147147038, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -667,7 +630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7608876542452417056, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 506.75613
+      value: 534.43
       objectReference: {fileID: 0}
     - target: {fileID: 7608876542452417056, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -675,7 +638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7608876542452417056, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 411.01
+      value: 399.86
       objectReference: {fileID: 0}
     - target: {fileID: 7608876542452417056, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -709,11 +672,271 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+--- !u!1 &767010916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767010919}
+  - component: {fileID: 767010918}
+  - component: {fileID: 767010917}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &767010917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767010916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
+--- !u!108 &767010918
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767010916}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 1
+  m_Color: {r: 0.5433428, g: 0.5543978, b: 0.6981132, a: 1}
+  m_Intensity: 0.03
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
+--- !u!4 &767010919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767010916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &915349555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 915349557}
+  - component: {fileID: 915349556}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &915349556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915349555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 10fc4df2da32a41aaa32d77bc913491c, type: 2}
+--- !u!4 &915349557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 915349555}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1109180956 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2089942313062815276, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+  m_PrefabInstance: {fileID: 418270996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1109180958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1109180956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
+--- !u!1 &1150240596 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2089942313062815276, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+  m_PrefabInstance: {fileID: 125488275}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1150240598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150240596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &1265668606
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,7 +1010,7 @@ Terrain:
   m_ScaleInLightmap: 0.0256
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 3
   m_AllowAutoConnect: 1
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
@@ -863,10 +1086,29 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2089942313062815276, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1844185121}
   m_SourcePrefab: {fileID: 100100000, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
 --- !u!1 &1625400688
 GameObject:
@@ -1099,11 +1341,61 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+--- !u!1 &1844185119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2089942313062815276, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+  m_PrefabInstance: {fileID: 1389071842}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1844185121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844185119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!4 &1971859104 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623292190794246903, guid: f7d50d7071bef4799b3b37fb6d0a6a92, type: 3}
@@ -1165,6 +1457,22 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 543450652461005744}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1231,6 +1539,22 @@ PrefabInstance:
       propertyPath: targetCar
       value: 
       objectReference: {fileID: 1971859104}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: pursuitSpeed
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: aggressiveness
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: slowDownDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8876630837908303151, guid: bdad7980bd9c54df2b333d22029bdb7e, type: 3}
+      propertyPath: minSpeedMultiplier
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1240,7 +1564,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 267000745}
+  - {fileID: 767010919}
   - {fileID: 276574735}
   - {fileID: 1625400693}
   - {fileID: 1265668609}
@@ -1255,3 +1579,4 @@ SceneRoots:
   - {fileID: 418270996}
   - {fileID: 1979926698}
   - {fileID: 291018631}
+  - {fileID: 915349557}
