@@ -21,18 +21,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: headlights
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: e10c67747dea94d4f9c7fed6a78be42f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _EMISSION
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -107,6 +105,8 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DeformerRadius: 1
+    - _DeformerStrength: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -119,6 +119,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0
@@ -133,8 +134,12 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.8313727, g: 0.8117648, b: 0.90196085, a: 1}
+    - _Base_Color: {r: 0.83137256, g: 0.8117647, b: 0.9019608, a: 1}
     - _Color: {r: 0.8313727, g: 0.8117648, b: 0.90196085, a: 1}
-    - _EmissionColor: {r: 42.13599, g: 39.933468, b: 50.643074, a: 1}
+    - _DeformerPos: {r: 0, g: -1000, b: 0, a: 0}
+    - _DeformerStrength: {r: 0, g: 0, b: 0, a: 0}
+    - _Emission: {r: 42.13599, g: 39.933468, b: 50.643074, a: 1}
+    - _EmissionColor: {r: 39.88469, g: 37.799847, b: 47.93725, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

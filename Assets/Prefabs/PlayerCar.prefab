@@ -655,19 +655,6 @@ MonoBehaviour:
   - wheelModel: {fileID: 8312283061949830053}
     wheelCollider: {fileID: 3934143738183779764}
     axel: 1
-  audioSource: {fileID: 0}
-  loopAudioSource: {fileID: 0}
-  engineStartUp: {fileID: 8300000, guid: d9fb216dc2afc401885dd4f69c4822e8, type: 3}
-  engineLoop: {fileID: 8300000, guid: f6f57eaec61e34cc7a0e57bb2f49c774, type: 3}
-  engineTurningOff: {fileID: 8300000, guid: ff4360a1deeea41e3ad85af1ff23e8d3, type: 3}
-  acceleration: {fileID: 8300000, guid: fe0381723fb4740b192d3e585c8066cf, type: 3}
-  horn: {fileID: 8300000, guid: b564820d80f1a48d297af7aeaa67dbcb, type: 3}
-  doorOpen: {fileID: 8300000, guid: 3840b4d3213fe41c4adbf64245868896, type: 3}
-  doorClose: {fileID: 8300000, guid: ef772f3a58f48479da2ebbe1de28347b, type: 3}
-  hoodOpen: {fileID: 8300000, guid: d1776f6f457564837bb428e342707c9e, type: 3}
-  hoodClose: {fileID: 8300000, guid: 89b3d8aee892241b39fa220129f8338f, type: 3}
-  trunkOpen: {fileID: 8300000, guid: 8fb356d7326b64eeba941608c17edabd, type: 3}
-  parkingBrake: {fileID: 8300000, guid: 1dbf72f7911114ffc85e6845c3a5f6f6, type: 3}
 --- !u!114 &2782269910874708973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,6 +1412,7 @@ GameObject:
   - component: {fileID: 6170628872674840909}
   - component: {fileID: 8462693438047335262}
   - component: {fileID: 7306389860475804391}
+  - component: {fileID: 1610429759045386508}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -1486,7 +1474,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: d41c9b79d48de42b08758ceb66c223c2, type: 2}
   - {fileID: 2100000, guid: 9741577fe9d0f42a792146c18a670ca2, type: 2}
   - {fileID: 2100000, guid: ab578376c7a0b4d559cb8669929bfb09, type: 2}
-  - {fileID: 2100000, guid: 98e84d58085d24c72ae15e9039d41687, type: 2}
+  - {fileID: 2100000, guid: 46e9151df50bb47368e1a916a746bdb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1531,6 +1519,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1196477559893790763, guid: 8b3ea27383912456c8118b908c21ea3a, type: 3}
+--- !u!114 &1610429759045386508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9140474856136959754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807504a12f5c144de9d952e6f47e8fd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFX.DeformableMesh
+  deformer: {fileID: 0}
 --- !u!1 &9214679822979493682
 GameObject:
   m_ObjectHideFlags: 0
