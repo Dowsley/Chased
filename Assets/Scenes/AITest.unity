@@ -751,7 +751,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 0.5433428, g: 0.5543978, b: 0.6981132, a: 1}
-  m_Intensity: 0.03
+  m_Intensity: 0.32
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1565,6 +1565,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 767010919}
+  - {fileID: 915349557}
   - {fileID: 276574735}
   - {fileID: 1625400693}
   - {fileID: 1265668609}
@@ -1579,4 +1580,3 @@ SceneRoots:
   - {fileID: 418270996}
   - {fileID: 1979926698}
   - {fileID: 291018631}
-  - {fileID: 915349557}

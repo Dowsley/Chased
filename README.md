@@ -16,4 +16,5 @@ Car mayhem just like GTA.
 - [ ] Add sounds
 - [ ] Tire tracks
 - [ ] Car Destruction (joao)
-- [ ] Desert level (neunzo)
+- [ ] Basic level (neunzo)
+- [ ] Objective
