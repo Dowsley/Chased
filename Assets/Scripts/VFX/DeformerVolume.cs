@@ -23,7 +23,7 @@ namespace VFX
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = new Color(1f, 1f, 0f, 0.1f);
-            Gizmos.DrawSphere(transform.position, radius);
+            // Gizmos.DrawSphere(transform.position, radius);
         }
     }
 }
