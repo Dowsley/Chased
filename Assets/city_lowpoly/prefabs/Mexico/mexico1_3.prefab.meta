@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: d6db2b9806017264aab6d0ea73ab62a2
+labels:
+- Architecture
+- building
+- skyscraper
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Mexico/mexico1_3.prefab
+  uploadId: 549662

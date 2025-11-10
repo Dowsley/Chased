@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 952a74b22ea88b74ab9b2ce055e8e794
+labels:
+- Architecture
+- building
+- skyscraper
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Skyscrapers/sky1_05.prefab
+  uploadId: 549662

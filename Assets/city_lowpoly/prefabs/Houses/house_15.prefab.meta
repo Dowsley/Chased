@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 8f67fa4f24fe13d4a9e0d2bbc9774c7c
+labels:
+- Architecture
+- building
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Houses/house_15.prefab
+  uploadId: 549662

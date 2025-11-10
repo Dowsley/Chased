@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: e3cea898b3a2eb64e91d6445b9ca79bd
+labels:
+- Architecture
+- building
+- industrial
+- warehouse
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Warehouse/warehouse3_d.prefab
+  uploadId: 549662

@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c6793017d13020042a87ef080da450e3
+labels:
+- Architecture
+- building
+- house
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Croatia/croatia_04.prefab
+  uploadId: 549662

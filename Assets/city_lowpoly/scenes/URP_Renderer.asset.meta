@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5c68cdee651551b489fd3279553afbf5
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/scenes/URP_Renderer.asset
+  uploadId: 549662

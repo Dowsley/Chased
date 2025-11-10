@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: f6573473d745c7a4e838b99d62e9b20d
+labels:
+- Architecture
+- building
+- house
+timeCreated: 1435330854
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Venice/venice_12.prefab
+  uploadId: 549662

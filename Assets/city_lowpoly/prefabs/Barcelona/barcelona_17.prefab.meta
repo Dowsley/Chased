@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 7469b8c3641816e408d7842ace084d7e
+labels:
+- Architecture
+- building
+- skyscraper
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Barcelona/barcelona_17.prefab
+  uploadId: 549662
