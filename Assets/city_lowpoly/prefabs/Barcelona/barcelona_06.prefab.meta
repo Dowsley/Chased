@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 8838714b5be9b40478e50ced72e46710
+labels:
+- Architecture
+- building
+- house
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/Barcelona/barcelona_06.prefab
+  uploadId: 549662

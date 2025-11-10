@@ -39,6 +39,14 @@ namespace Driving.Player
 
         private void OnCollisionEnter(Collision collision)
         {
+            // Apply damage from any collision (building, cop car, etc.)
+            VehicleHealth health = GetComponent<VehicleHealth>();
+            if (health != null)
+            {
+                health.ApplyCollisionDamage(collision);
+            }
+
+            // Specific handling for cop car collisions
             if (collision.gameObject.GetComponent<AIDriverInput>() != null)
             {
                 float currentTime = Time.time;

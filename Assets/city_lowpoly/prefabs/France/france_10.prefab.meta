@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c475b72a7daf3294bb18c1bc95d48a50
+labels:
+- Architecture
+- building
+- house
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/France/france_10.prefab
+  uploadId: 549662

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fa912565bafd9ae438151abab3f62d96
+labels:
+- Architecture
+- building
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 2455
+  packageName: City Low Poly
+  packageVersion: 3.53
+  assetPath: Assets/city_lowpoly/prefabs/no atlased/noAtlased_12.prefab
+  uploadId: 549662
