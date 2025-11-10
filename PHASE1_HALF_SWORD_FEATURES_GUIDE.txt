@@ -1,0 +1,593 @@
+================================================================================
+                    PHASE 1: HALF SWORD-INSPIRED FEATURES
+                         PERMADEATH, BETTING, DAMAGE SYSTEM
+================================================================================
+
+OVERVIEW:
+Your chase game now has Half Sword-inspired gameplay mechanics that create
+high-stakes tension through:
+
+1. PERMADEATH CAMPAIGN MODE - One car, one life
+2. BETTING SYSTEM - Risk money for multiplied rewards
+3. DAMAGE AFFECTS HANDLING - Vehicle damage changes physics
+
+These features work together to create emergent, tense gameplay where every
+decision and collision matters!
+
+
+================================================================================
+                              WHAT WAS ADDED
+================================================================================
+
+NEW FILES CREATED:
+──────────────────
+
+1. Assets/Scripts/Driving/VehicleHealth.cs
+   - Tracks vehicle damage (0-100%)
+   - Applies damage from collisions based on impact force
+   - Modifies vehicle physics as damage increases:
+     * Reduced acceleration (100% → 60% at max damage)
+     * Reduced steering (100% → 70% at max damage)
+     * Increased instability (center of mass raised)
+   - Visual feedback hooks (smoke, sparks)
+   - Permadeath event when health reaches 0
+
+2. Assets/Scripts/UI/GameUIManager.cs
+   - Betting screen UI management
+   - HUD during chase (health, money, timer)
+   - Win/loss screen handling
+   - Game over (permadeath) screen
+   - Connects to GameManager events
+
+MODIFIED FILES:
+───────────────
+
+1. Assets/Scripts/Core/GameManager.cs
+   EXTENDED WITH:
+   - Campaign state management
+   - Money tracking and persistence (PlayerPrefs)
+   - Betting system (place bet, validate amount)
+   - Win condition (survive 60 seconds)
+   - Loss condition (vehicle destroyed)
+   - Payout calculation (1.5x-2.25x based on health)
+   - Permadeath handling (out of money = game over)
+
+2. Assets/Scripts/Driving/Player/PlayerDriverInput.cs
+   MODIFIED:
+   - OnCollisionEnter() now applies damage via VehicleHealth
+   - Damage applies from ANY collision (buildings, cops, etc.)
+
+3. Assets/Scripts/ChaseSceneSetup.cs
+   EXTENDED WITH:
+   - Adds VehicleHealth component to player car
+   - Calls GameManager.StartChase() after setup
+   - Shows HUD when chase starts
+
+
+================================================================================
+                              HOW IT WORKS
+================================================================================
+
+GAMEPLAY FLOW:
+──────────────
+
+1. START CAMPAIGN
+   - Player starts with $100
+   - Campaign progress saved to PlayerPrefs
+
+2. BETTING SCREEN
+   - Choose bet amount (minimum $10)
+   - See potential winnings (1.5x-2.25x)
+   - Higher bet = higher risk/reward
+   - Click "Start Chase" to begin
+
+3. CHASE BEGINS
+   - Player spawns in city with cop cars pursuing
+   - Goal: Survive for 60 seconds
+   - HUD shows:
+     * Health bar (damage from collisions)
+     * Current money
+     * Current bet
+     * Time remaining
+
+4. VEHICLE DAMAGE SYSTEM
+   - Every collision applies damage
+   - More damage = worse handling:
+     * Slower acceleration
+     * Worse steering
+     * More unstable/slidey
+   - Visual feedback: smoke appears at 30% damage
+
+5. WIN OR LOSE
+
+   WIN (survived 60 seconds):
+   - Calculate health bonus: higher health = higher multiplier
+   - Base multiplier: 1.5x
+   - Perfect health bonus: up to 2.25x
+   - Money added to balance
+   - Return to betting screen for next chase
+
+   LOSE (vehicle destroyed):
+   - Lose the bet amount
+   - Money deducted from balance
+   - If money >= $10: return to betting screen
+   - If money < $10: PERMADEATH - campaign over
+
+6. PERMADEATH
+   - Out of money = game over
+   - Must start new campaign ($100 starting money)
+   - All progress lost
+
+
+================================================================================
+                              SETUP GUIDE
+================================================================================
+
+STEP 1: CREATE UI CANVASES
+───────────────────────────
+
+You need to create UI canvases for the game. Here's the structure:
+
+1. Create Canvas - "HUD Canvas"
+   ├── TextMeshProUGUI - "MoneyText" (top-left)
+   ├── TextMeshProUGUI - "BetText" (top-left, below money)
+   ├── TextMeshProUGUI - "TimerText" (top-center)
+   ├── Slider - "HealthBar" (bottom-center)
+   └── TextMeshProUGUI - "HealthText" (on health bar)
+
+2. Create Canvas - "Betting Canvas"
+   ├── TextMeshProUGUI - "AvailableMoneyText"
+   ├── Slider - "BetSlider"
+   ├── TextMeshProUGUI - "BetAmountText"
+   ├── TextMeshProUGUI - "PotentialWinText"
+   ├── Button - "StartChaseButton"
+   └── Button - "NewCampaignButton"
+
+3. Create Canvas - "Win Canvas"
+   ├── TextMeshProUGUI - "WinBetText"
+   ├── TextMeshProUGUI - "WinningsText"
+   ├── TextMeshProUGUI - "TotalMoneyText"
+   └── Button - "NextChaseButton"
+
+4. Create Canvas - "Game Over Canvas"
+   ├── TextMeshProUGUI - "GameOverMessageText"
+   └── Button - "RestartCampaignButton"
+
+
+STEP 2: ADD GAME UI MANAGER
+────────────────────────────
+
+1. Create empty GameObject: "GameUIManager"
+2. Add Component: GameUIManager (the script we created)
+3. In Inspector, assign all UI element references:
+
+   Canvas References:
+   - HUD Canvas → drag HUD Canvas
+   - Betting Canvas → drag Betting Canvas
+   - Game Over Canvas → drag Game Over Canvas
+   - Win Canvas → drag Win Canvas
+
+   HUD Elements:
+   - Money Text → drag MoneyText from HUD
+   - Bet Text → drag BetText from HUD
+   - Timer Text → drag TimerText from HUD
+   - Health Bar → drag HealthBar slider from HUD
+   - Health Text → drag HealthText from HUD
+
+   Betting Screen:
+   - Available Money Text → drag from Betting Canvas
+   - Bet Slider → drag from Betting Canvas
+   - Bet Amount Text → drag from Betting Canvas
+   - Potential Win Text → drag from Betting Canvas
+   - Start Chase Button → drag from Betting Canvas
+   - New Campaign Button → drag from Betting Canvas
+
+   Win Screen:
+   - Win Bet Text → drag from Win Canvas
+   - Winnings Text → drag from Win Canvas
+   - Total Money Text → drag from Win Canvas
+   - Next Chase Button → drag from Win Canvas
+
+   Game Over Screen:
+   - Game Over Message Text → drag from Game Over Canvas
+   - Restart Campaign Button → drag from Game Over Canvas
+
+
+STEP 3: CONFIGURE GAMEMANAGER
+──────────────────────────────
+
+The GameManager should already exist from ChaseSceneSetup. Select it and
+configure these settings:
+
+Campaign Settings:
+- Starting Money: 100 (default)
+- Min Bet Amount: 10 (default)
+- Escape Time For Win: 60 (seconds to survive)
+- Base Payout Multiplier: 1.5 (default multiplier)
+
+
+STEP 4: TEST THE SYSTEM
+────────────────────────
+
+1. BASIC TEST (in Unity Editor):
+   a. Press Play
+   b. You should see the Betting Screen
+   c. Adjust bet slider
+   d. Click "Start Chase"
+   e. Chase should begin with HUD visible
+   f. Drive around, watch health decrease on collisions
+   g. Survive 60 seconds OR get destroyed
+
+2. DAMAGE TEST:
+   a. Start a chase
+   b. Crash into buildings repeatedly
+   c. Notice:
+      - Health bar decreases
+      - Car accelerates slower
+      - Car steers worse
+      - Car becomes more unstable
+      - Smoke appears at 30% damage
+   d. Eventually health reaches 0 → permadeath
+
+3. WIN TEST:
+   a. Start chase with low bet ($10)
+   b. Drive carefully for 60 seconds
+   c. Win screen should appear showing winnings
+   d. Money should increase
+   e. Click "Next Chase" to return to betting
+
+4. PERMADEATH TEST:
+   a. Start new campaign
+   b. Bet everything ($100)
+   c. Crash into cop cars until destroyed
+   d. Should lose $100
+   e. Money = $0 → Game Over screen
+   f. Click "Restart Campaign" to get new $100
+
+
+================================================================================
+                              GAMEPLAY TIPS
+================================================================================
+
+FOR PLAYERS:
+────────────
+
+CONSERVATIVE STRATEGY:
+- Bet small amounts ($10-20)
+- Drive carefully to preserve health
+- Higher health = higher multiplier (up to 2.25x)
+- Slow and steady wins the campaign
+
+AGGRESSIVE STRATEGY:
+- Bet large amounts (50-100% of money)
+- Accept some damage to escape quickly
+- Higher risk, higher reward
+- Can build money faster... or lose everything
+
+DAMAGE MANAGEMENT:
+- Early damage (80-100% health): Minimal impact on handling
+- Medium damage (50-80% health): Noticeable steering/acceleration loss
+- Heavy damage (20-50% health): Significantly worse handling
+- Critical damage (0-20% health): Nearly undriveable, close to permadeath
+
+BETTING WISDOM:
+- Never bet everything unless desperate
+- Keep reserves for multiple attempts
+- Health bonus rewards careful driving
+- Surviving at low health still pays less than high health
+
+
+================================================================================
+                              CUSTOMIZATION
+================================================================================
+
+ADJUST DIFFICULTY (GameManager):
+─────────────────────────────────
+
+EASIER GAME:
+- Starting Money: 200 (more safety net)
+- Min Bet Amount: 5 (smaller bets allowed)
+- Escape Time For Win: 30 (shorter chases)
+- Base Payout Multiplier: 2.0 (higher rewards)
+
+HARDER GAME:
+- Starting Money: 50 (less margin for error)
+- Min Bet Amount: 20 (forced higher risk)
+- Escape Time For Win: 120 (longer survival needed)
+- Base Payout Multiplier: 1.2 (lower rewards)
+
+
+ADJUST DAMAGE SYSTEM (VehicleHealth):
+──────────────────────────────────────
+
+ON PLAYER CAR PREFAB OR INSTANCE:
+
+More Forgiving Damage:
+- Max Health: 200 (takes more hits)
+- Min Impact For Damage: 5 (only hard hits count)
+- Damage Multiplier: 2 (less damage per hit)
+- Min Acceleration Percent: 0.8 (only drops to 80%)
+- Min Steering Percent: 0.85 (only drops to 85%)
+
+More Punishing Damage:
+- Max Health: 50 (few hits = dead)
+- Min Impact For Damage: 1 (everything hurts)
+- Damage Multiplier: 10 (massive damage per hit)
+- Min Acceleration Percent: 0.3 (drops to 30% - nearly immobile)
+- Min Steering Percent: 0.4 (drops to 40% - barely steerable)
+
+
+ADJUST CHASE DIFFICULTY:
+─────────────────────────
+
+In ChaseSceneSetup:
+- Number Of Cop Cars: 3-12 (default 6)
+- Spawn Radius: 50-150 (how far cops spawn)
+
+
+================================================================================
+                              TECHNICAL DETAILS
+================================================================================
+
+DAMAGE CALCULATION:
+───────────────────
+
+Collision damage formula:
+  damage = (impactMagnitude - minImpactForDamage) × damageMultiplier
+
+Default values:
+  minImpactForDamage = 3.0
+  damageMultiplier = 5.0
+
+Example:
+  Light tap (impulse = 2.0): No damage (below threshold)
+  Medium hit (impulse = 5.0): (5 - 3) × 5 = 10 damage
+  Heavy crash (impulse = 10.0): (10 - 3) × 5 = 35 damage
+
+
+PHYSICS DEGRADATION:
+────────────────────
+
+As damage increases from 0% → 100%:
+
+Acceleration:
+  maxAccel = originalMaxAccel × (100% → 60%)
+  Default: 300 → 180
+
+Steering:
+  turnSensitivity = originalTurnSensitivity × (100% → 70%)
+  Default: 1.0 → 0.7
+
+Stability:
+  centerOfMass.y = 0 → 0.3 (raised center = more flips/slides)
+
+
+PAYOUT CALCULATION:
+───────────────────
+
+Win payout formula:
+  healthBonus = currentHealth / maxHealth (0.0 - 1.0)
+  multiplier = baseMultiplier × (1 + healthBonus × 0.5)
+  winnings = betAmount × multiplier
+
+Examples (base multiplier = 1.5):
+  100% health: 1.5 × (1 + 1.0 × 0.5) = 1.5 × 1.5 = 2.25x
+  75% health:  1.5 × (1 + 0.75 × 0.5) = 1.5 × 1.375 = 2.06x
+  50% health:  1.5 × (1 + 0.5 × 0.5) = 1.5 × 1.25 = 1.875x
+  25% health:  1.5 × (1 + 0.25 × 0.5) = 1.5 × 1.125 = 1.69x
+  1% health:   1.5 × (1 + 0.01 × 0.5) = 1.5 × 1.005 = 1.51x
+
+
+PERSISTENCE:
+────────────
+
+Campaign data saved to PlayerPrefs:
+  Key: "PlayerMoney"
+  Value: Current money balance (float)
+
+Saved when:
+- New campaign started
+- Chase won
+- Chase lost (but still have money)
+- Permadeath (reset to 0)
+
+Loaded when:
+- GameManager.Start() called
+- First time: defaults to startingMoney ($100)
+
+
+================================================================================
+                              EVENTS SYSTEM
+================================================================================
+
+GameManager provides these events for custom UI/logic:
+
+public event Action<float> OnMoneyChanged;
+  - Fired when player money changes
+  - Parameter: new money amount
+
+public event Action<float> OnBetPlaced;
+  - Fired when player places a bet
+  - Parameter: bet amount
+
+public event Action<float, float> OnChaseWon;
+  - Fired when player wins a chase
+  - Parameters: (bet amount, winnings amount)
+
+public event Action<float> OnChaseLost;
+  - Fired when player loses (but can continue)
+  - Parameter: lost bet amount
+
+public event Action OnPermadeath;
+  - Fired when player runs out of money
+  - No parameters
+
+VehicleHealth provides these events:
+
+public event Action<float> OnDamageReceived;
+  - Fired when vehicle takes damage
+  - Parameter: damage amount
+
+public event Action<float> OnHealthChanged;
+  - Fired when health changes
+  - Parameter: health percent (0.0 - 1.0)
+
+public event Action OnVehicleDestroyed;
+  - Fired when health reaches 0
+  - No parameters
+
+
+EXAMPLE - Custom Event Listener:
+─────────────────────────────────
+
+void Start()
+{
+    if (GameManager.Instance != null)
+    {
+        GameManager.Instance.OnChaseWon += OnWin;
+        GameManager.Instance.OnPermadeath += OnGameOver;
+    }
+}
+
+void OnWin(float bet, float winnings)
+{
+    Debug.Log($"Won ${winnings} from ${bet} bet!");
+    // Play victory sound, show particles, etc.
+}
+
+void OnGameOver()
+{
+    Debug.Log("Campaign over!");
+    // Play sad music, show stats, etc.
+}
+
+
+================================================================================
+                              TROUBLESHOOTING
+================================================================================
+
+Q: Betting screen doesn't appear?
+A:
+1. Check GameUIManager is in scene
+2. Check all canvas references are assigned
+3. Check Betting Canvas is enabled in hierarchy
+4. Check GameManager exists and initialized
+
+Q: "Cannot start chase without placing a bet" error?
+A:
+1. Make sure you clicked "Start Chase" after adjusting bet
+2. Check bet amount is >= minBetAmount ($10)
+3. Check you have enough money for the bet
+
+Q: No damage when crashing?
+A:
+1. Check VehicleHealth component is on player car
+2. Check PlayerDriverInput is calling ApplyCollisionDamage
+3. Increase damageMultiplier in VehicleHealth inspector
+4. Check collision impulse magnitude (might be below threshold)
+
+Q: Physics don't change with damage?
+A:
+1. Check VehicleHealth.UpdatePhysicsFromDamage() is being called
+2. Check VehicleController exists on same GameObject
+3. Try increasing damage to 50%+ to see noticeable effect
+
+Q: Money doesn't save between sessions?
+A:
+1. PlayerPrefs saves automatically
+2. Check GameManager.SaveCampaignProgress() is being called
+3. In Unity Editor, clear PlayerPrefs: Edit > Clear All PlayerPrefs
+
+Q: Win condition never triggers?
+A:
+1. Check GameManager.escapeTimeForWin (default 60 seconds)
+2. Make sure GameManager.Update() is running
+3. Check campaign is active (GameManager.StartChase() was called)
+
+Q: UI doesn't update?
+A:
+1. Check GameUIManager subscribed to events (in Start())
+2. Check GameManager.Instance exists
+3. Check all UI Text/Slider references assigned in inspector
+4. Check canvases are enabled at appropriate times
+
+
+================================================================================
+                              NEXT STEPS
+================================================================================
+
+PHASE 1 IS COMPLETE! ✓
+
+You now have:
+✓ Permadeath campaign mode
+✓ Risk/reward betting system
+✓ Physics-consequence damage system
+✓ High-stakes, emergent gameplay
+
+POTENTIAL FUTURE ENHANCEMENTS (Phase 2+):
+────────────────────────────────────────
+
+1. VISUAL DAMAGE
+   - Deformed car meshes
+   - Missing wheels
+   - Broken windows
+   - Dents and scratches
+
+2. SPECIFIC DAMAGE ZONES
+   - Front damage: pulls to one side
+   - Rear damage: fishtails
+   - Left/right damage: asymmetric handling
+   - Engine damage: acceleration only
+   - Tire damage: specific wheel issues
+
+3. UPGRADE SYSTEM
+   - Spend winnings on upgrades
+   - Better armor (more health)
+   - Better acceleration/steering
+   - Risk vs reward: upgrade or bet more?
+
+4. MULTIPLAYER STAKES
+   - Bet against other players
+   - Winner takes all
+   - Spectator betting
+
+5. PROCEDURAL EVENTS
+   - Random roadblocks
+   - Spike strips
+   - Helicopter backup
+   - Traffic jams
+   - Weather changes
+
+6. CAMPAIGN PROGRESSION
+   - Unlock new cities
+   - Unlock new cars
+   - Increasing difficulty
+   - Leaderboards
+
+
+================================================================================
+                              SUMMARY
+================================================================================
+
+Your chase game now embodies Half Sword's core philosophy:
+
+SIMPLE CONTROLS → COMPLEX OUTCOMES
+  - Simple driving controls
+  - But damage creates unpredictable physics
+  - Every collision has lasting consequences
+
+HIGH STAKES TENSION
+  - Real financial risk (betting)
+  - Permanent consequences (permadeath)
+  - No undo, no retry (until game over)
+
+EMERGENT GAMEPLAY
+  - Should I bet big or small?
+  - Should I drive carefully or aggressively?
+  - Can I make it with this much damage?
+  - Do I have enough health for one more hit?
+
+Every chase is unique. Every decision matters. Every collision changes the game.
+
+ENJOY YOUR HALF SWORD-INSPIRED CHASE GAME! 🚗💨🌃
+================================================================================

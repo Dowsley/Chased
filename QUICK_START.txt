@@ -1,0 +1,70 @@
+================================================================================
+                    CHASED - QUICK START GUIDE
+================================================================================
+
+3 STEPS TO PLAY:
+
+1. BUILD CITY
+   Unity Menu → Chased → Quick City Setup
+   Click "BUILD COMPLETE CHASE CITY"
+
+2. OPEN SCENE
+   Assets/Scenes/chased.unity
+
+3. PRESS PLAY
+   Click ► button at top of Unity
+
+
+CONTROLS:
+---------
+WASD or Arrow Keys = Drive
+Space = Brake
+
+
+GOAL:
+-----
+Escape the cop cars chasing you!
+Use the city streets and intersections to lose them.
+
+
+TIPS:
+-----
+• Turn sharply at intersections to shake cops
+• Don't crash into buildings
+• Higher speed = harder to turn
+• Cop cars are aggressive - they'll ram you!
+
+
+NEED MORE HELP?
+---------------
+See HOW_TO_PLAY.txt for detailed instructions
+See CITY_BUILDER_GUIDE.txt for city building options
+
+
+ADJUSTING DIFFICULTY:
+---------------------
+Before building city, in Quick City Setup window:
+- More cops = harder (2-12 cops available)
+- Bigger city = more escape routes
+- Smaller city = more intense chases
+
+To change cop speed/aggression:
+- Select any CopCar in scene
+- Adjust AIDriverInput component settings
+
+
+TROUBLESHOOTING:
+----------------
+Q: Can't control car?
+A: Make sure PlayerCar exists in scene, check Input System is installed
+
+Q: Cops don't chase?
+A: Check GameManager exists, verify AIDriverInput not disabled
+
+Q: No buildings?
+A: Click "Load Building Prefabs" buttons first, then "Build City"
+
+
+================================================================================
+That's it! You're ready to play CHASED!
+================================================================================

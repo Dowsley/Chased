@@ -1,0 +1,181 @@
+================================================================================
+                    CHASED - CITY BUILDER GUIDE
+================================================================================
+
+Your chase game now has procedural city building tools! Here's how to use them:
+
+================================================================================
+QUICK START
+================================================================================
+
+1. Open Unity and load your "chased" scene (Assets/Scenes/chased.unity)
+
+2. Create an empty GameObject in the scene:
+   - Right-click in Hierarchy > Create Empty
+   - Name it "CityBuilder"
+
+3. Add the CityBuilder script:
+   - Select the CityBuilder GameObject
+   - In Inspector, click "Add Component"
+   - Search for "CityBuilder" and add it
+
+4. In the CityBuilder Inspector, click these buttons:
+   - "Load Building Prefabs from NY Folder"
+   - "Load Skyscraper Prefabs"
+   - "Load Street Props" (optional)
+
+5. Adjust settings if desired:
+   - City Width: 8 (number of blocks wide)
+   - City Length: 8 (number of blocks long)
+   - Block Size: 40 (size of each building block)
+   - Street Width: 12 (width of streets - perfect for chase gameplay)
+
+6. Click "BUILD CITY" button
+   - This creates a procedural city grid!
+   - Buildings will be placed automatically
+   - Streets will be created between blocks
+
+================================================================================
+SETTING UP VEHICLES
+================================================================================
+
+1. Create another empty GameObject:
+   - Name it "SceneSetup"
+
+2. Add the ChaseSceneSetup script:
+   - Select the SceneSetup GameObject
+   - Add Component > ChaseSceneSetup
+
+3. Click "Auto-Load Prefabs" button
+   - This loads your PlayerCar and AICar prefabs automatically
+
+4. Configure chase settings:
+   - Number of Cop Cars: 6 (or however many you want)
+   - Spawn Radius: 80 (distance from player)
+
+5. Link the CityBuilder:
+   - Drag the CityBuilder GameObject to the "City Builder" field
+
+6. Click "SETUP CHASE SCENE" button
+   - Player car spawns in city center
+   - Cop cars spawn around the player
+   - Camera is configured automatically
+
+================================================================================
+CITY LAYOUT FEATURES
+================================================================================
+
+The city is designed specifically for chase gameplay:
+
+✓ GRID LAYOUT: Manhattan-style grid perfect for pursuits
+✓ WIDE STREETS: 12-unit wide streets for maneuvering
+✓ INTERSECTIONS: Multiple crossing points for tactical gameplay
+✓ BUILDING VARIETY: Mix of NY buildings and skyscrapers
+✓ DOWNTOWN AREA: Taller buildings in the center
+✓ STREET PROPS: Barriers and signals for obstacles
+✓ COLLIDERS: All buildings have collision for realistic crashes
+
+================================================================================
+CUSTOMIZATION TIPS
+================================================================================
+
+Want to modify the city? Here are some ideas:
+
+DENSE CITY:
+- Increase City Width and Length (e.g., 12x12)
+- Decrease Block Size (e.g., 30)
+- More buildings, tighter streets
+
+OPEN CITY:
+- Increase Block Size (e.g., 60)
+- Increase Street Width (e.g., 20)
+- More space for high-speed chases
+
+ADD VARIETY:
+- Mix building types (NY, Houses, Warehouses)
+- Add more props along streets
+- Create themed districts
+
+PERFORMANCE:
+- Smaller grid for better FPS (6x6)
+- Fewer street props
+- Use LOD groups on buildings
+
+================================================================================
+USING WITH EASYROADS3D
+================================================================================
+
+Your project has EasyRoads3D for creating custom road networks:
+
+1. After building the city, you can add custom roads:
+   - Window > EasyRoads3D > Road Network
+   - Create roads that connect through your city
+   - Perfect for highways, ramps, etc.
+
+2. Roads can go:
+   - Between buildings
+   - Over buildings (elevated highways)
+   - Underground (tunnels)
+
+3. The procedural city provides the buildings, EasyRoads3D adds roads!
+
+================================================================================
+CHASE GAMEPLAY TIPS
+================================================================================
+
+The city layout supports these chase mechanics:
+
+• INTERSECTIONS: Create decision points - turn or go straight?
+• ALLEYS: Narrow passages between buildings for risky shortcuts
+• OPEN STREETS: Main avenues for high-speed pursuit
+• BUILDING BLOCKS: Line of sight blockers - lose the cops!
+• PROPS: Barriers and obstacles to dodge
+• MULTIPLE PATHS: Grid allows many routes to any destination
+
+================================================================================
+TECHNICAL NOTES
+================================================================================
+
+The scripts work directly with Unity's text-based scene format:
+- All changes are saved in the scene file
+- City is built as GameObjects (not procedural meshes)
+- Each building is a prefab instance
+- Fully compatible with Unity's lighting and navmesh
+
+The city persists when you save the scene. To rebuild:
+- Click "Build City" again (clears old city first)
+- Or manually delete the "City" GameObject
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Q: Buildings don't show up?
+A: Make sure you clicked "Load Building Prefabs" first!
+
+Q: No collisions with buildings?
+A: The script auto-adds colliders. Check building prefabs have MeshFilters.
+
+Q: Cars fall through ground?
+A: The ground plane has a collider. Check Layer Collision Matrix.
+
+Q: City is too big/small?
+A: Adjust City Width, Length, and Block Size in CityBuilder settings.
+
+Q: Want to change after building?
+A: Just click "Build City" again with new settings!
+
+================================================================================
+READY TO CHASE!
+================================================================================
+
+You now have a procedural city perfect for cat-and-mouse chase gameplay!
+
+1. Build the city
+2. Setup the chase scene
+3. Press Play
+4. Get chased!
+
+Have fun and good luck outrunning those cop cars!
+
+================================================================================
