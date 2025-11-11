@@ -16,5 +16,6 @@ Car mayhem just like GTA.
 - [ ] Add sounds
 - [ ] Tire tracks
 - [ ] Car Destruction (joao)
+- [ ] AI Mesh Navigation
 - [ ] Basic level (neunzo)
 - [ ] Objective
