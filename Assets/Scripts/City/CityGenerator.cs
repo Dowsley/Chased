@@ -54,6 +54,7 @@ namespace City
 			var grid = GenerateNodesGrid();
 			GenerateStraightRoads(grid);
 			GenerateBuildings(grid);
+			Debug.Log($"CityGenerator: RoadGraph built with nodes={_graph.Nodes.Count} lanes={_graph.Lanes.Count}");
 		}
 
 		public void ClearCity()

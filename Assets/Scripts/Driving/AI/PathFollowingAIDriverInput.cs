@@ -12,22 +12,51 @@ namespace Driving.AI
 		[SerializeField] private float lookaheadDistance = 10f;
 		[SerializeField] private float targetSpeed = 20f;
 		[SerializeField] private float maxSteerAngle = 30f;
+		[SerializeField] private bool patrolWhenNoTarget = true;
+		[SerializeField] private bool debugLogs = false;
 
 		private readonly List<Vector3> _path = new List<Vector3>();
 		private float _replanTimer;
 		private int _pathSegmentIndex;
 		private Rigidbody _rb;
+		private Vector3? _patrolGoal;
+		private float _stuckTimer;
+		private const float StuckThresholdSeconds = 2f;
+		private RoadGraph _graph;
+
+		private RoadGraph ResolveGraph()
+		{
+			var all = FindObjectsByType<RoadGraph>(FindObjectsSortMode.None);
+			RoadGraph best = null;
+			int bestLanes = -1;
+			foreach (var g in all)
+			{
+				int count = g != null ? g.Lanes.Count : 0;
+				if (count > bestLanes)
+				{
+					best = g;
+					bestLanes = count;
+				}
+			}
+			if (best != null && debugLogs)
+			{
+				Debug.Log($"{name}: Bound to RoadGraph with nodes={best.Nodes.Count} lanes={best.Lanes.Count}");
+			}
+			return best;
+		}
 
 		protected override void Start()
 		{
 			base.Start();
 			_rb = GetComponent<Rigidbody>();
+			_graph = ResolveGraph();
+			_replanTimer = 0f; // force initial plan on first FixedUpdate
 		}
 
 		protected override void FixedUpdate()
 		{
 			if (disabled) return;
-			if (RoadGraph.Instance == null) return;
+			if (_graph == null || _graph.Lanes.Count == 0) { _graph = ResolveGraph(); if (_graph == null) return; }
 
 			_replanTimer -= Time.fixedDeltaTime;
 			if (_replanTimer <= 0f)
@@ -41,15 +70,53 @@ namespace Driving.AI
 
 		private void PlanPath()
 		{
-			Transform target = GameManager.Instance != null ? GameManager.Instance.targetCar : null;
-			if (target == null) return;
+			if (_graph == null)
+			{
+				if (debugLogs) Debug.LogWarning($"{name}: RoadGraph.Instance is null. Did you click Generate City?");
+				return;
+			}
+			if (_graph.Lanes.Count == 0)
+			{
+				if (debugLogs) Debug.LogWarning($"{name}: RoadGraph has 0 lanes. Click Generate City or check CityGenerator.");
+				return;
+			}
 
-			var newPath = RoadGraph.Instance.FindPath(transform.position, target.position);
+			Transform target = GameManager.Instance != null ? GameManager.Instance.targetCar : null;
+			if (target == null)
+			{
+				if (!patrolWhenNoTarget || _graph.Nodes.Count == 0) return;
+				// pick a random node as a patrol destination
+				if (_patrolGoal == null || (transform.position - _patrolGoal.Value).sqrMagnitude < 4f)
+				{
+					int idx = Random.Range(0, _graph.Nodes.Count);
+					_patrolGoal = _graph.Nodes[idx].position;
+				}
+				var patrolPath = _graph.FindPath(transform.position, _patrolGoal.Value);
+				if (patrolPath != null && patrolPath.Count >= 2)
+				{
+					_path.Clear();
+					_path.AddRange(patrolPath);
+					_pathSegmentIndex = 0;
+					if (debugLogs) Debug.Log($"{name}: Planned patrol path with {_path.Count} points.");
+				}
+				else
+				{
+					if (debugLogs) Debug.LogWarning($"{name}: Patrol path is null/too short.");
+				}
+				return;
+			}
+
+			var newPath = _graph.FindPath(transform.position, target.position);
 			if (newPath != null && newPath.Count >= 2)
 			{
 				_path.Clear();
 				_path.AddRange(newPath);
 				_pathSegmentIndex = 0;
+				if (debugLogs) Debug.Log($"{name}: Planned chase path with {_path.Count} points.");
+			}
+			else
+			{
+				if (debugLogs) Debug.LogWarning($"{name}: Chase path is null/too short.");
 			}
 		}
 
@@ -60,6 +127,7 @@ namespace Driving.AI
 				VehicleController.SetThrottle(0f);
 				VehicleController.SetSteering(0f);
 				VehicleController.SetBrake(false);
+			if (debugLogs) Debug.LogWarning($"{name}: No path. Waiting for planner.");
 				return;
 			}
 
@@ -76,6 +144,21 @@ namespace Driving.AI
 			VehicleController.SetThrottle(throttle);
 			VehicleController.SetSteering(steerInput);
 			VehicleController.SetBrake(false);
+
+			// Stuck detector: throttle high but no speed gain over time
+			if (throttle > 0.5f && speed < 0.5f)
+			{
+				_stuckTimer += Time.fixedDeltaTime;
+				if (_stuckTimer > StuckThresholdSeconds && debugLogs)
+				{
+					Debug.LogWarning($"{name}: Stuck (no movement). Check WheelColliders grounded and road colliders exist.");
+					_stuckTimer = 0f;
+				}
+			}
+			else
+			{
+				_stuckTimer = 0f;
+			}
 		}
 
 		private void AdvanceSegmentIndex()
@@ -136,6 +219,21 @@ namespace Driving.AI
 			}
 
 			return _path[_path.Count - 1];
+		}
+
+		private void OnDrawGizmos()
+		{
+			if (_path.Count >= 2)
+			{
+				Gizmos.color = Color.green;
+				for (int i = 1; i < _path.Count; i++)
+				{
+					Gizmos.DrawLine(_path[i - 1] + Vector3.up * 0.05f, _path[i] + Vector3.up * 0.05f);
+				}
+				Gizmos.color = Color.magenta;
+				var la = ComputeLookaheadPoint(lookaheadDistance);
+				Gizmos.DrawSphere(la + Vector3.up * 0.1f, 0.3f);
+			}
 		}
 	}
 }

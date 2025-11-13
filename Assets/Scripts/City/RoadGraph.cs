@@ -64,10 +64,61 @@ namespace City
 			{
 				Instance = this;
 				DontDestroyOnLoad(gameObject);
+				RebuildAdjacency();
 			}
 			else
 			{
 				Destroy(gameObject);
+			}
+		}
+
+		private void OnEnable()
+		{
+			// Ensure adjacency is valid when deserializing from scene/prefab
+			RebuildAdjacency();
+		}
+
+		private void RebuildAdjacency()
+		{
+			if (nodes == null || lanes == null) return;
+			// Map node ids to canonical instances in the nodes list
+			var idToNode = new Dictionary<int, IntersectionNode>(nodes.Count);
+			for (int i = 0; i < nodes.Count; i++)
+			{
+				var n = nodes[i];
+				if (n == null) continue;
+				idToNode[n.id] = n;
+			}
+
+			// Rebind lane endpoints to canonical node instances (Unity deep-serializes, breaking reference identity)
+			for (int i = 0; i < lanes.Count; i++)
+			{
+				var e = lanes[i];
+				if (e == null) continue;
+				if (e.from != null && idToNode.TryGetValue(e.from.id, out var fromNode))
+				{
+					e.from = fromNode;
+				}
+				if (e.to != null && idToNode.TryGetValue(e.to.id, out var toNode))
+				{
+					e.to = toNode;
+				}
+			}
+
+			// Clear existing adjacency
+			for (int i = 0; i < nodes.Count; i++)
+			{
+				if (nodes[i] == null) continue;
+				nodes[i].Outgoing.Clear();
+				nodes[i].Incoming.Clear();
+			}
+			// Re-link edges to node adjacency lists
+			for (int i = 0; i < lanes.Count; i++)
+			{
+				var e = lanes[i];
+				if (e == null || e.from == null || e.to == null) continue;
+				e.from.Outgoing.Add(e);
+				e.to.Incoming.Add(e);
 			}
 		}
 
@@ -108,6 +159,11 @@ namespace City
 			IntersectionNode startNode = FindNearestNode(worldStart);
 			IntersectionNode endNode = FindNearestNode(worldEnd);
 			if (startNode == null || endNode == null) return null;
+			if (startNode.id == endNode.id)
+			{
+				// Fallback: trivial segment to avoid null paths when start=end node
+				return new List<Vector3> { startNode.position, endNode.position };
+			}
 
 			var cameFrom = new Dictionary<int, int>();
 			var gScore = new Dictionary<int, float>();
@@ -147,6 +203,32 @@ namespace City
 				}
 			}
 
+			// Fallback: BFS connectivity test (unweighted)
+			var q = new Queue<int>();
+			var visited = new HashSet<int>();
+			var parent = new Dictionary<int, int>();
+			q.Enqueue(startNode.id);
+			visited.Add(startNode.id);
+			bool found = false;
+			while (q.Count > 0)
+			{
+				int cur = q.Dequeue();
+				if (cur == endNode.id) { found = true; break; }
+				foreach (var e in nodes[cur].Outgoing)
+				{
+					int nid = e.to.id;
+					if (!visited.Add(nid)) continue;
+					parent[nid] = cur;
+					q.Enqueue(nid);
+				}
+			}
+			if (found)
+			{
+				Debug.LogWarning($"RoadGraph: A* failed but BFS succeeded. start=({startNode.id}) end=({endNode.id})");
+				return ReconstructPath(parent, startNode.id, endNode.id);
+			}
+
+			Debug.LogWarning($"RoadGraph: A* and BFS failed between nodes. start=({startNode.id}) end=({endNode.id})");
 			return null;
 		}
 
