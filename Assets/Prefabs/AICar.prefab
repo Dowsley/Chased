@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 7608876542452417056}
   - component: {fileID: 580454391990999679}
   - component: {fileID: 72501475712468614}
-  - component: {fileID: 8876630837908303151}
+  - component: {fileID: 3260186987045705863}
   - component: {fileID: 4151753120563359534}
   m_Layer: 0
   m_Name: AICar
@@ -801,7 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54419c75b4ad041f49e2ce93f81d9927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VehicleController
-  maxAccel: 300
+  maxAccel: 600
   brakeAccel: 500
   turnSensitivity: 1
   maxSteerAngle: 30
@@ -819,7 +819,7 @@ MonoBehaviour:
   - wheelModel: {fileID: 1651601757021055333}
     wheelCollider: {fileID: 7888492187172478565}
     axel: 1
---- !u!114 &8876630837908303151
+--- !u!114 &3260186987045705863
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -828,15 +828,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 5142702705746523285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd0650586b6744f8c9f1509b0f053a1e, type: 3}
+  m_Script: {fileID: 11500000, guid: c77449e9d8aaf491ca2170d0c89140fc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Driving.AI.AIDriverInput
+  m_EditorClassIdentifier: Assembly-CSharp::Driving.AI.PathFollowingAIDriverInput
   disabled: 0
-  pursuitSpeed: 1.5
-  minSpeedMultiplier: 0.5
-  slowDownDistance: 5
-  aggressiveness: 1.2
-  maxSteerAngle: 30
+  replanInterval: 0.5
+  lookaheadDistance: 16
+  targetSpeed: 90
+  maxSteerAngle: 35
+  patrolWhenNoTarget: 1
+  debugLogs: 0
+  chaseDirectRadius: 100
+  avoidanceEnabled: 1
+  avoidRayLength: 14
+  avoidSteerStrength: 0.6
+  avoidThrottleScale: 0.9
+  avoidRayYOffset: 0.8
+  avoidLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  avoidSamples: 9
+  avoidFOVDeg: 90
+  avoidSphereRadius: 0.5
+  minCornerSpeedFactor: 0.6
+  lookaheadSpeedFactor: 1.8
+  brakeOverspeedFactor: 1.3
+  brakeSteerThreshold: 0.4
+  reverseRecoveryEnabled: 1
+  reverseDuration: 1
+  reverseThrottle: -0.7
+  forwardRecoverDuration: 0.5
+  forwardRecoverThrottle: 0.4
 --- !u!114 &4151753120563359534
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,0 @@
-repository "games-chased/games@3574362008898@cloud"
-  path "/"
-    br "/main"
-    co "/main"

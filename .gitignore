@@ -100,3 +100,6 @@ InitTestScene*.unity*
 
 # Others
 .DS_Store
+.idea
+.plastic
+.claude

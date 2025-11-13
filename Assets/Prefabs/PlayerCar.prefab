@@ -682,7 +682,6 @@ GameObject:
   - component: {fileID: 2728022052521978903}
   - component: {fileID: 5407889150268597495}
   - component: {fileID: 8863555881580284544}
-  - component: {fileID: 1831397452590069206}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -802,21 +801,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VFX.DeformableMesh
   deformer: {fileID: 0}
---- !u!114 &1831397452590069206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4529246742497889730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcfa7b24e3c694553aa416159bb5fa78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VFX.CollisionDeformer
-  impactStrength: 1
-  impactRadius: 0.5
-  minImpactForce: 5
 --- !u!1 &5792988519112646916
 GameObject:
   m_ObjectHideFlags: 0
