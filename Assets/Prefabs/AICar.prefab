@@ -840,10 +840,16 @@ MonoBehaviour:
   debugLogs: 0
   chaseDirectRadius: 100
   avoidanceEnabled: 1
-  avoidRayLength: 10
+  avoidRayLength: 14
   avoidSteerStrength: 0.6
   avoidThrottleScale: 0.9
-  avoidRayYOffset: 0.5
+  avoidRayYOffset: 0.8
+  avoidLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  avoidSamples: 9
+  avoidFOVDeg: 90
+  avoidSphereRadius: 0.5
   minCornerSpeedFactor: 0.6
   lookaheadSpeedFactor: 1.8
   brakeOverspeedFactor: 1.3

@@ -20,6 +20,10 @@ namespace Driving.AI
 		[SerializeField] private float avoidSteerStrength = 0.6f;
 		[SerializeField] private float avoidThrottleScale = 0.6f;
 		[SerializeField] private float avoidRayYOffset = 0.5f;
+		[SerializeField] private LayerMask avoidLayerMask = ~0;
+		[SerializeField] private int avoidSamples = 7;
+		[SerializeField] private float avoidFOVDeg = 70f;
+		[SerializeField] private float avoidSphereRadius = 0.75f;
 		[SerializeField] private float minCornerSpeedFactor = 0.35f;
 		[SerializeField] private float lookaheadSpeedFactor = 0.6f;
 		[SerializeField] private float brakeOverspeedFactor = 1.1f;
@@ -235,20 +239,16 @@ namespace Driving.AI
 				}
 			}
 
-			// Simple obstacle avoidance when in direct-chase range
-			if (avoidanceEnabled && chaseTarget)
+			// Obstacle avoidance using local clearance field
+			if (avoidanceEnabled)
 			{
-				float distToTarget = Vector3.Distance(transform.position, chaseTarget.position);
-				if (distToTarget <= chaseDirectRadius)
+				if (ComputeAvoidance(out var steerAdjust, out var throttleScale))
 				{
-					if (ComputeAvoidance(out var steerAdjust, out var throttleScale))
-					{
-						float adjustedSteer = Mathf.Clamp(steerInput + steerAdjust * avoidSteerStrength, -1f, 1f);
-						float adjustedThrottle = throttle * Mathf.Clamp(throttleScale * avoidThrottleScale, 0.3f, 1f);
-						VehicleController.SetSteering(adjustedSteer);
-						VehicleController.SetThrottle(adjustedThrottle);
-						VehicleController.SetBrake(false);
-					}
+					float adjustedSteer = Mathf.Clamp(steerInput + steerAdjust * avoidSteerStrength, -1f, 1f);
+					float adjustedThrottle = throttle * Mathf.Clamp(throttleScale * avoidThrottleScale, 0.3f, 1f);
+					VehicleController.SetSteering(adjustedSteer);
+					VehicleController.SetThrottle(adjustedThrottle);
+					VehicleController.SetBrake(false);
 				}
 			}
 		}
@@ -319,28 +319,47 @@ namespace Driving.AI
 			throttleScale = 1f;
 			Vector3 origin = transform.position + Vector3.up * avoidRayYOffset;
 			Vector3 fwd = transform.forward;
-			Vector3 leftDir = Quaternion.Euler(0f, -25f, 0f) * fwd;
-			Vector3 rightDir = Quaternion.Euler(0f, 25f, 0f) * fwd;
 
-			bool hitF = Physics.Raycast(origin, fwd, out var hitFwd, avoidRayLength);
-			bool hitL = Physics.Raycast(origin, leftDir, out var hitLeft, avoidRayLength * 0.8f);
-			bool hitR = Physics.Raycast(origin, rightDir, out var hitRight, avoidRayLength * 0.8f);
-
-			if (!hitF && !hitL && !hitR) return false;
-
-			float bias = 0f;
-			if (hitF)
+			// Forward spherecast to detect an immediate wall; reduce throttle if close
+			bool hitForward = Physics.SphereCast(origin, avoidSphereRadius, fwd, out var hitFwd, avoidRayLength, avoidLayerMask, QueryTriggerInteraction.Ignore);
+			if (hitForward)
 			{
-				float dL = hitL ? hitLeft.distance : avoidRayLength;
-				float dR = hitR ? hitRight.distance : avoidRayLength;
-				bias += dL > dR ? -1f : 1f;
-				throttleScale = 0.6f;
+				float forwardProximity = 1f - Mathf.Clamp01(hitFwd.distance / avoidRayLength);
+				throttleScale = Mathf.Min(throttleScale, 1f - 0.5f * forwardProximity);
 			}
-			if (hitL) bias += 0.5f;
-			if (hitR) bias -= 0.5f;
 
+			// Fan of spherecasts across FOV to build a clearance field and bias steering away from close obstacles
+			int samples = Mathf.Max(3, avoidSamples | 1); // force odd count for center ray
+			float halfFov = Mathf.Clamp(avoidFOVDeg * 0.5f, 5f, 120f);
+			float sum = 0f;
+			float weightSum = 0f;
+			bool any = false;
+			for (int i = 0; i < samples; i++)
+			{
+				float t = samples == 1 ? 0f : (i / (float)(samples - 1)) * 2f - 1f; // [-1..1]
+				float angle = t * halfFov;
+				Vector3 dir = Quaternion.Euler(0f, angle, 0f) * fwd;
+				float len = avoidRayLength * Mathf.Lerp(0.8f, 1f, 1f - Mathf.Abs(t)); // center ray longer
+
+				bool hit = Physics.SphereCast(origin, avoidSphereRadius, dir, out var hitInfo, len, avoidLayerMask, QueryTriggerInteraction.Ignore);
+				float proximity = hit ? 1f - Mathf.Clamp01(hitInfo.distance / len) : 0f;
+
+				// Weight side samples higher to encourage lateral avoidance rather than pure braking
+				float sideEmphasis = Mathf.Lerp(0.6f, 1f, Mathf.Abs(t));
+				float w = sideEmphasis * (0.5f + 0.5f * proximity); // more weight if closer
+
+				// Steer away from obstacle: if obstacle on left (angle<0), bias steer to the right
+				float steerDir = angle < 0f ? 1f : (angle > 0f ? -1f : 0f);
+				sum += steerDir * proximity * w;
+				weightSum += w;
+				any |= hit;
+			}
+
+			if (!any) return false;
+
+			float bias = weightSum > 0.0001f ? sum / weightSum : 0f;
 			steerAdjust = Mathf.Clamp(bias, -1f, 1f);
-			return true;
+			return Mathf.Abs(steerAdjust) > 0.001f || throttleScale < 0.999f;
 		}
 
 		private void OnDrawGizmos()

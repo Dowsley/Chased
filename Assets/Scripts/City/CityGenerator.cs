@@ -20,6 +20,14 @@ namespace City
 		[SerializeField] private int randomSeed = 12345;
 		[SerializeField] private float buildingSpacingMultiplier = 2f; // 2x default spacing
 
+		[Header("Blocks & Plazas")]
+		[Range(0f, 1f)] [SerializeField] private float emptyBlockProbability = 0f; // chance a block has no buildings
+		[SerializeField] private bool useGridPlazas = false; // enable a repeating empty-block pattern
+		[SerializeField] private int plazaStride = 6; // distance between plaza anchors (in blocks)
+		[SerializeField] private int plazaSize = 2; // contiguous empty size per plaza (square, in blocks)
+		[SerializeField] private int plazaOffsetRow = 0; // shift pattern vertically
+		[SerializeField] private int plazaOffsetCol = 0; // shift pattern horizontally
+
 		[Header("Parents")]
 		[SerializeField] private Transform groundRoot;
 		[SerializeField] private Transform roadsRoot;
@@ -236,6 +244,21 @@ namespace City
 			{
 				for (int c = 0; c < cols; c++)
 				{
+					// Decide if this block should be empty (for plazas/squares)
+					bool makePlaza = false;
+					if (useGridPlazas && plazaStride > 0 && plazaSize > 0)
+					{
+						int rr = ((r - plazaOffsetRow) % plazaStride + plazaStride) % plazaStride;
+						int cc = ((c - plazaOffsetCol) % plazaStride + plazaStride) % plazaStride;
+						makePlaza = rr < plazaSize && cc < plazaSize;
+					}
+					bool makeEmptyByChance = rnd.NextDouble() < emptyBlockProbability;
+					if (makePlaza || makeEmptyByChance)
+					{
+						// Leave this block empty (no buildings) to create squares/plazas
+						continue;
+					}
+
 					float margin = buildingMargin * Mathf.Max(1f, buildingSpacingMultiplier);
 					float sizeX = Mathf.Max(1f, blockSize - margin * 2f);
 					float sizeZ = Mathf.Max(1f, blockSize - margin * 2f);
