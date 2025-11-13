@@ -14,6 +14,12 @@ namespace Driving.AI
 		[SerializeField] private float maxSteerAngle = 30f;
 		[SerializeField] private bool patrolWhenNoTarget = true;
 		[SerializeField] private bool debugLogs = false;
+		[SerializeField] private float chaseDirectRadius = 20f;
+		[SerializeField] private bool avoidanceEnabled = true;
+		[SerializeField] private float avoidRayLength = 8f;
+		[SerializeField] private float avoidSteerStrength = 0.6f;
+		[SerializeField] private float avoidThrottleScale = 0.6f;
+		[SerializeField] private float avoidRayYOffset = 0.5f;
 			[SerializeField] private bool reverseRecoveryEnabled = true;
 			[SerializeField] private float reverseDuration = 1.25f;
 			[SerializeField] private float reverseThrottle = -0.6f;
@@ -141,8 +147,18 @@ namespace Driving.AI
 
 			AdvanceSegmentIndex();
 			Vector3 lookahead = ComputeLookaheadPoint(lookaheadDistance);
+			Vector3 desiredPoint = lookahead;
+			Transform chaseTarget = GameManager.Instance != null ? GameManager.Instance.targetCar : null;
+			if (chaseTarget)
+			{
+				float distToTarget = Vector3.Distance(transform.position, chaseTarget.position);
+				if (distToTarget <= chaseDirectRadius)
+				{
+					desiredPoint = chaseTarget.position;
+				}
+			}
 
-			Vector3 localTarget = transform.InverseTransformPoint(lookahead);
+			Vector3 localTarget = transform.InverseTransformPoint(desiredPoint);
 			float angleToTarget = Mathf.Atan2(localTarget.x, localTarget.z) * Mathf.Rad2Deg;
 			float steerInput = Mathf.Clamp(angleToTarget / maxSteerAngle, -1f, 1f);
 
@@ -209,6 +225,23 @@ namespace Driving.AI
 					return;
 				}
 			}
+
+			// Simple obstacle avoidance when in direct-chase range
+			if (avoidanceEnabled && chaseTarget)
+			{
+				float distToTarget = Vector3.Distance(transform.position, chaseTarget.position);
+				if (distToTarget <= chaseDirectRadius)
+				{
+					if (ComputeAvoidance(out var steerAdjust, out var throttleScale))
+					{
+						float adjustedSteer = Mathf.Clamp(steerInput + steerAdjust * avoidSteerStrength, -1f, 1f);
+						float adjustedThrottle = throttle * Mathf.Clamp(throttleScale * avoidThrottleScale, 0.3f, 1f);
+						VehicleController.SetSteering(adjustedSteer);
+						VehicleController.SetThrottle(adjustedThrottle);
+						VehicleController.SetBrake(false);
+					}
+				}
+			}
 		}
 
 		private void AdvanceSegmentIndex()
@@ -269,6 +302,36 @@ namespace Driving.AI
 			}
 
 			return _path[_path.Count - 1];
+		}
+
+		private bool ComputeAvoidance(out float steerAdjust, out float throttleScale)
+		{
+			steerAdjust = 0f;
+			throttleScale = 1f;
+			Vector3 origin = transform.position + Vector3.up * avoidRayYOffset;
+			Vector3 fwd = transform.forward;
+			Vector3 leftDir = Quaternion.Euler(0f, -25f, 0f) * fwd;
+			Vector3 rightDir = Quaternion.Euler(0f, 25f, 0f) * fwd;
+
+			bool hitF = Physics.Raycast(origin, fwd, out var hitFwd, avoidRayLength);
+			bool hitL = Physics.Raycast(origin, leftDir, out var hitLeft, avoidRayLength * 0.8f);
+			bool hitR = Physics.Raycast(origin, rightDir, out var hitRight, avoidRayLength * 0.8f);
+
+			if (!hitF && !hitL && !hitR) return false;
+
+			float bias = 0f;
+			if (hitF)
+			{
+				float dL = hitL ? hitLeft.distance : avoidRayLength;
+				float dR = hitR ? hitRight.distance : avoidRayLength;
+				bias += dL > dR ? -1f : 1f;
+				throttleScale = 0.6f;
+			}
+			if (hitL) bias += 0.5f;
+			if (hitR) bias -= 0.5f;
+
+			steerAdjust = Mathf.Clamp(bias, -1f, 1f);
+			return true;
 		}
 
 		private void OnDrawGizmos()
