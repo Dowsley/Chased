@@ -14,6 +14,11 @@ namespace Driving.AI
 		[SerializeField] private float maxSteerAngle = 30f;
 		[SerializeField] private bool patrolWhenNoTarget = true;
 		[SerializeField] private bool debugLogs = false;
+			[SerializeField] private bool reverseRecoveryEnabled = true;
+			[SerializeField] private float reverseDuration = 1.25f;
+			[SerializeField] private float reverseThrottle = -0.6f;
+			[SerializeField] private float forwardRecoverDuration = 0.75f;
+			[SerializeField] private float forwardRecoverThrottle = 0.35f;
 
 		private readonly List<Vector3> _path = new List<Vector3>();
 		private float _replanTimer;
@@ -23,6 +28,9 @@ namespace Driving.AI
 		private float _stuckTimer;
 		private const float StuckThresholdSeconds = 2f;
 		private RoadGraph _graph;
+			private enum RecoveryMode { None, Reversing, ForwardRecover }
+			private RecoveryMode _recoveryMode;
+			private float _recoveryTimer;
 
 		private RoadGraph ResolveGraph()
 		{
@@ -149,15 +157,57 @@ namespace Driving.AI
 			if (throttle > 0.5f && speed < 0.5f)
 			{
 				_stuckTimer += Time.fixedDeltaTime;
-				if (_stuckTimer > StuckThresholdSeconds && debugLogs)
+				if (_stuckTimer > StuckThresholdSeconds)
 				{
-					Debug.LogWarning($"{name}: Stuck (no movement). Check WheelColliders grounded and road colliders exist.");
+					if (reverseRecoveryEnabled && _recoveryMode == RecoveryMode.None)
+					{
+						_recoveryMode = RecoveryMode.Reversing;
+						_recoveryTimer = reverseDuration;
+						if (debugLogs) Debug.LogWarning($"{name}: Stuck detected. Entering reverse recovery for {reverseDuration:0.00}s");
+					}
+					else
+					{
+						if (debugLogs) Debug.LogWarning($"{name}: Stuck (no movement). Check WheelColliders grounded and road colliders exist.");
+					}
 					_stuckTimer = 0f;
 				}
 			}
 			else
 			{
 				_stuckTimer = 0f;
+			}
+
+			// Recovery override
+			if (reverseRecoveryEnabled && _recoveryMode != RecoveryMode.None)
+			{
+				_recoveryTimer -= Time.fixedDeltaTime;
+				if (_recoveryMode == RecoveryMode.Reversing)
+				{
+					// Reverse with opposite steer to pivot away from obstacle
+					float recoverSteer = Mathf.Clamp(-steerInput, -1f, 1f);
+					VehicleController.SetThrottle(reverseThrottle);
+					VehicleController.SetSteering(recoverSteer);
+					VehicleController.SetBrake(false);
+					if (_recoveryTimer <= 0f)
+					{
+						_recoveryMode = RecoveryMode.ForwardRecover;
+						_recoveryTimer = forwardRecoverDuration;
+						if (debugLogs) Debug.Log($"{name}: Reverse complete. Short forward recover {forwardRecoverDuration:0.00}s.");
+					}
+					return;
+				}
+				if (_recoveryMode == RecoveryMode.ForwardRecover)
+				{
+					VehicleController.SetThrottle(forwardRecoverThrottle);
+					VehicleController.SetSteering(steerInput);
+					VehicleController.SetBrake(false);
+					if (_recoveryTimer <= 0f)
+					{
+						_recoveryMode = RecoveryMode.None;
+						if (debugLogs) Debug.Log($"{name}: Recovery finished.");
+					}
+					return;
+				}
 			}
 		}
 
