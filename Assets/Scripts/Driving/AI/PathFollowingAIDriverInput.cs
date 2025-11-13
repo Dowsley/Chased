@@ -20,6 +20,10 @@ namespace Driving.AI
 		[SerializeField] private float avoidSteerStrength = 0.6f;
 		[SerializeField] private float avoidThrottleScale = 0.6f;
 		[SerializeField] private float avoidRayYOffset = 0.5f;
+		[SerializeField] private float minCornerSpeedFactor = 0.35f;
+		[SerializeField] private float lookaheadSpeedFactor = 0.6f;
+		[SerializeField] private float brakeOverspeedFactor = 1.1f;
+		[SerializeField] private float brakeSteerThreshold = 0.35f;
 			[SerializeField] private bool reverseRecoveryEnabled = true;
 			[SerializeField] private float reverseDuration = 1.25f;
 			[SerializeField] private float reverseThrottle = -0.6f;
@@ -146,7 +150,9 @@ namespace Driving.AI
 			}
 
 			AdvanceSegmentIndex();
-			Vector3 lookahead = ComputeLookaheadPoint(lookaheadDistance);
+			float speed = _rb != null ? _rb.linearVelocity.magnitude : 0f;
+			float dynamicLookahead = Mathf.Max(2f, lookaheadDistance + lookaheadSpeedFactor * speed);
+			Vector3 lookahead = ComputeLookaheadPoint(dynamicLookahead);
 			Vector3 desiredPoint = lookahead;
 			Transform chaseTarget = GameManager.Instance != null ? GameManager.Instance.targetCar : null;
 			if (chaseTarget)
@@ -162,12 +168,15 @@ namespace Driving.AI
 			float angleToTarget = Mathf.Atan2(localTarget.x, localTarget.z) * Mathf.Rad2Deg;
 			float steerInput = Mathf.Clamp(angleToTarget / maxSteerAngle, -1f, 1f);
 
-			float speed = _rb != null ? _rb.linearVelocity.magnitude : 0f;
-			float throttle = Mathf.Clamp01((targetSpeed - speed) / Mathf.Max(1f, targetSpeed));
+			// Corner-aware desired speed based on steering demand
+			float cornerFactor = Mathf.Lerp(1f, Mathf.Clamp01(minCornerSpeedFactor), Mathf.Abs(steerInput));
+			float desiredSpeed = Mathf.Max(1f, targetSpeed * cornerFactor);
+			float throttle = Mathf.Clamp01((desiredSpeed - speed) / Mathf.Max(1f, desiredSpeed));
 
 			VehicleController.SetThrottle(throttle);
 			VehicleController.SetSteering(steerInput);
-			VehicleController.SetBrake(false);
+			bool applyBrake = speed > desiredSpeed * Mathf.Max(1f, brakeOverspeedFactor) && Mathf.Abs(steerInput) > brakeSteerThreshold;
+			VehicleController.SetBrake(applyBrake);
 
 			// Stuck detector: throttle high but no speed gain over time
 			if (throttle > 0.5f && speed < 0.5f)

@@ -801,7 +801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54419c75b4ad041f49e2ce93f81d9927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VehicleController
-  maxAccel: 300
+  maxAccel: 600
   brakeAccel: 500
   turnSensitivity: 1
   maxSteerAngle: 30
@@ -832,12 +832,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Driving.AI.PathFollowingAIDriverInput
   disabled: 0
-  replanInterval: 1
-  lookaheadDistance: 10
-  targetSpeed: 45
-  maxSteerAngle: 30
+  replanInterval: 0.5
+  lookaheadDistance: 16
+  targetSpeed: 90
+  maxSteerAngle: 35
   patrolWhenNoTarget: 1
   debugLogs: 0
+  chaseDirectRadius: 100
+  avoidanceEnabled: 1
+  avoidRayLength: 10
+  avoidSteerStrength: 0.6
+  avoidThrottleScale: 0.9
+  avoidRayYOffset: 0.5
+  minCornerSpeedFactor: 0.6
+  lookaheadSpeedFactor: 1.8
+  brakeOverspeedFactor: 1.3
+  brakeSteerThreshold: 0.4
+  reverseRecoveryEnabled: 1
+  reverseDuration: 1
+  reverseThrottle: -0.7
+  forwardRecoverDuration: 0.5
+  forwardRecoverThrottle: 0.4
 --- !u!114 &4151753120563359534
 MonoBehaviour:
   m_ObjectHideFlags: 0

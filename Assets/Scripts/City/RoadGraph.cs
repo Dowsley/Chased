@@ -57,6 +57,7 @@ namespace City
 
 		[SerializeField] private List<IntersectionNode> nodes = new List<IntersectionNode>();
 		[SerializeField] private List<LaneEdge> lanes = new List<LaneEdge>();
+		[SerializeField] private float turnPenaltyWeight = 6f;
 
 		private void Awake()
 		{
@@ -193,6 +194,23 @@ namespace City
 				{
 					int neighborId = edge.to.id;
 					float tentative = gScore[currentId] + edge.Cost;
+
+					// Add turn penalty based on change in travel direction (prefer straighter paths)
+					if (cameFrom.TryGetValue(currentId, out int prevId))
+					{
+						var prev = nodes[prevId].position;
+						var cur = nodes[currentId].position;
+						var nxt = nodes[neighborId].position;
+						Vector2 v1 = new Vector2(cur.x - prev.x, cur.z - prev.z);
+						Vector2 v2 = new Vector2(nxt.x - cur.x, nxt.z - cur.z);
+						if (v1.sqrMagnitude > 0.0001f && v2.sqrMagnitude > 0.0001f)
+						{
+							float angle = Vector2.Angle(v1, v2); // 0 = straight, 90 = right/left, 180 = u-turn
+							float turnFactor = Mathf.Clamp01(angle / 90f); // normalize to [0..1+] then clamp
+							tentative += turnPenaltyWeight * turnFactor;
+						}
+					}
+
 					if (tentative < gScore[neighborId])
 					{
 						cameFrom[neighborId] = currentId;
